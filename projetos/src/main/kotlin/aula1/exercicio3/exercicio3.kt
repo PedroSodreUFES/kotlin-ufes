@@ -1,5 +1,8 @@
 package org.example.aula1.exercicio3
 
+import kotlin.math.pow
+import kotlin.math.sqrt
+
 class Point(val x: Double, val y: Double, val radius: Double) {}
 
 fun main() {
@@ -24,11 +27,11 @@ fun main() {
     val point1 = Point(x1, y1, radius1)
     val point2 = Point(x2, y2, radius2)
 
-    if(
-        ((point1.radius + point1.x) > (point2.radius + point2.x) ||
-        (point1.radius + point1.x) > (point2.radius + point2.x))
-
-        ) {
-
+    if(sqrt(
+            (point1.x - point2.x).pow(2) + (point1.y - point2.y).pow(2)
+    ) <= point1.radius + point2.radius) {
+        println("ACERTOU")
+    } else {
+        println("ERROU")
     }
 }
