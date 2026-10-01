@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="nameInputError">O seu nome deve ter ao menos 3 caracteres</string>
 
     <string-array name="cat_sentences">
         <item>O tempo passado com gatos nunca é perdido.</item>
@@ -15,5 +16,13 @@
         <item>Cães têm uma maneira de encontrar as pessoas que precisam deles.</item>
         <item>Um cachorro é a única coisa na Terra que ama você mais do que ama a si mesmo.</item>
         <item>A vida dos cães é curta demais.</item>
+    </string-array>
+
+    <string-array name="fish_sentences">
+        <item>Os peixes são símbolos de liberdade e tranquilidade.</item>
+        <item>O peixe nada em silêncio, mas transforma todo o ambiente ao seu redor.</item>
+        <item>Há uma beleza especial em observar um peixe seguindo seu próprio caminho.</item>
+        <item>O mar ensina que até os menores peixes podem encontrar seu espaço.</item>
+        <item>Peixes nos lembram que a vida pode ser leve quando aprendemos a seguir o fluxo.</item>
     </string-array>
 </resources>

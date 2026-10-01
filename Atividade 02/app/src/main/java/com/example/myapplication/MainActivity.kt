@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.databinding.ActivityMainBinding
@@ -38,10 +39,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View) {
         if (R.id.buttonSave == view.id) {
             var textTyped = binding.nameInput.text.toString()
-            if (textTyped.trim().isEmpty()) {
+            if (textTyped.trim().length < 3) {
                 Toast.makeText(
                     applicationContext,
-                    "O campo de texto está vazio",
+                    resources.getString(R.string.nameInputError),
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
