@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">My Application</string>
+
+    <string-array name="cat_sentences">
+        <item>O tempo passado com gatos nunca é perdido.</item>
+        <item>Um gato tem absoluta honestidade emocional.</item>
+        <item>Os gatos são misteriosos.</item>
+        <item>Todo mundo deveria ter um gato.</item>
+        <item>Ninguém é dono de um gato.</item>
+    </string-array>
+
+    <string-array name="dog_sentences">
+        <item>O cachorro é o melhor amigo do homem.</item>
+        <item>A felicidade é um filhote quentinho.</item>
+        <item>Cães têm uma maneira de encontrar as pessoas que precisam deles.</item>
+        <item>Um cachorro é a única coisa na Terra que ama você mais do que ama a si mesmo.</item>
+        <item>A vida dos cães é curta demais.</item>
+    </string-array>
 </resources>

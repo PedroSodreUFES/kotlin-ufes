@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         sp = applicationContext.getSharedPreferences(
             "CHAVE",
             Context.MODE_PRIVATE
+
         )
         val nome = sp.getString("NOME", null)
         if(nome != null) {

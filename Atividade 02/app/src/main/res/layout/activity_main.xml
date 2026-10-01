@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:text="Guardar"
             android:textSize="20sp"
-            android:backgroundTint="#5D97ED"
+            android:backgroundTint="@color/blue"
             android:paddingHorizontal="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
