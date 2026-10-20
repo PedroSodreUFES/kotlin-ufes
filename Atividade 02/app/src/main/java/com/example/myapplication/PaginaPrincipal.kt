@@ -1,23 +1,23 @@
 package com.example.myapplication
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.MutableLiveData
 import com.example.myapplication.databinding.ActivityPaginaPrincipalBinding
 
 class PaginaPrincipal : AppCompatActivity(), View.OnClickListener, View.OnLongClickListener {
     private lateinit var binding: ActivityPaginaPrincipalBinding
     private lateinit var sp: SharedPreferences
     private var selectedAnimal = "cat"
+    private val sentenceLiveData = MutableLiveData<String>()
+    private val possibleAnimals : Set<String> = setOf("cat", "dog", "fish")
     private lateinit var catSentences: MutableList<String>
     private lateinit var dogSentences: MutableList<String>
     private lateinit var fishSentences: MutableList<String>
@@ -29,29 +29,32 @@ class PaginaPrincipal : AppCompatActivity(), View.OnClickListener, View.OnLongCl
 
         sp = getSharedPreferences(
             "CHAVE",
-            Context.MODE_PRIVATE,
+            MODE_PRIVATE,
         )
         val userName = sp.getString("NOME", null)
-        binding.welcomingText.text = "Olá, ${userName}"
+        binding.welcomingText.text = "${getString(R.string.welcome_text)}, $userName"
 
-        val animalLastSelected = sp.getString("ANIMAL", null)
-        if (animalLastSelected == "cat") {
-            selectedAnimal = "cat"
-            binding.catImage.setColorFilter(
-                ContextCompat.getColor(this, R.color.yellow)
-            )
-        } else if (animalLastSelected == "dog") {
-            selectedAnimal = "dog"
-            binding.dogImage.setColorFilter(
-                ContextCompat.getColor(this, R.color.yellow)
-            )
-        } else if (animalLastSelected == "fish") {
-            selectedAnimal = "fish"
-            binding.fishImage.setColorFilter(
-                ContextCompat.getColor(this, R.color.yellow)
-            )
-        }
-        else {
+        val lastSelectedAnimal = sp.getString("ANIMAL", null)
+        if(!lastSelectedAnimal.isNullOrEmpty() && lastSelectedAnimal in possibleAnimals) {
+            selectedAnimal = lastSelectedAnimal
+            when (selectedAnimal) {
+                "cat" -> {
+                    binding.catImage.setColorFilter(
+                        ContextCompat.getColor(this, R.color.yellow)
+                    )
+                }
+                "dog" -> {
+                    binding.dogImage.setColorFilter(
+                        ContextCompat.getColor(this, R.color.yellow)
+                    )
+                }
+                "fish" -> {
+                    binding.fishImage.setColorFilter(
+                        ContextCompat.getColor(this, R.color.yellow)
+                    )
+                }
+            }
+        }else {
             selectedAnimal = "cat"
             binding.catImage.setColorFilter(
                 ContextCompat.getColor(this, R.color.yellow)
@@ -64,13 +67,14 @@ class PaginaPrincipal : AppCompatActivity(), View.OnClickListener, View.OnLongCl
         binding.fishImage.setOnClickListener(this)
         binding.generateSentenceButton.setOnClickListener(this)
         binding.returnButton.setOnClickListener(this)
-        binding.randomSentence.text = "Clique no botão para gerar uma frase!"
         binding.returnButton.setColorFilter(
             ContextCompat.getColor(this, R.color.blue)
         )
         this.catSentences = resources.getStringArray(R.array.cat_sentences).toMutableList()
         this.dogSentences = resources.getStringArray(R.array.dog_sentences).toMutableList()
         this.fishSentences = resources.getStringArray(R.array.fish_sentences).toMutableList()
+        setObserver()
+        sentenceLiveData.value = getString(R.string.start_text)
     }
 
     override fun onClick(view: View) {
@@ -116,21 +120,21 @@ class PaginaPrincipal : AppCompatActivity(), View.OnClickListener, View.OnLongCl
         else if(view.id == R.id.generateSentenceButton) {
             if (selectedAnimal == "cat") {
                 if(catSentences.isEmpty()) {
-                    binding.randomSentence.text = "Não há mais frases de gatos!"
+                    sentenceLiveData.value = getString(R.string.no_more_phrases_of_cat_text)
                 } else {
-                    binding.randomSentence.text = catSentences.random()
+                    sentenceLiveData.value = catSentences.random()
                 }
             } else if (selectedAnimal == "dog") {
                 if(dogSentences.isEmpty()) {
-                    binding.randomSentence.text = "Não há mais frases de cachorros!"
+                    sentenceLiveData.value = getString(R.string.no_more_phrases_of_dog_text)
                 } else {
-                    binding.randomSentence.text = dogSentences.random()
+                    sentenceLiveData.value = dogSentences.random()
                 }
             } else if (selectedAnimal == "fish") {
                 if(fishSentences.isEmpty()) {
-                    binding.randomSentence.text = "Não há mais frases de peixes!"
+                    sentenceLiveData.value = getString(R.string.no_more_phrases_of_fish_text)
                 } else {
-                    binding.randomSentence.text = fishSentences.random()
+                    sentenceLiveData.value = fishSentences.random()
                 }
             }
         }
@@ -143,25 +147,33 @@ class PaginaPrincipal : AppCompatActivity(), View.OnClickListener, View.OnLongCl
 
     override fun onLongClick(view: View): Boolean {
         if(view.id == R.id.randomSentence &&
-            binding.randomSentence.text.toString() != "Clique no botão para gerar uma frase!" &&
-            !binding.randomSentence.text.startsWith("Não há mais frases de")
+            binding.randomSentence.text.toString() != getString(R.string.start_text) &&
+            !binding.randomSentence.text.startsWith(getString(R.string.no_more_phrases_text))
             ) {
-            if (selectedAnimal == "fish") {
-                fishSentences.remove(binding.randomSentence.text.toString())
-            }
-            else if(selectedAnimal == "dog") {
-                dogSentences.remove(binding.randomSentence.text.toString())
-            }
-            else if(selectedAnimal == "cat") {
-                catSentences.remove(binding.randomSentence.text.toString())
+            when (selectedAnimal) {
+                "fish" -> {
+                    fishSentences.remove(binding.randomSentence.text.toString())
+                }
+                "dog" -> {
+                    dogSentences.remove(binding.randomSentence.text.toString())
+                }
+                "cat" -> {
+                    catSentences.remove(binding.randomSentence.text.toString())
+                }
             }
             Toast.makeText(
                 applicationContext,
                 "Frase removida!",
                 Toast.LENGTH_SHORT
             ).show()
-            binding.randomSentence.text = "Clique no botão para gerar uma frase!"
+            sentenceLiveData.value = getString(R.string.start_text)
         }
         return true
+    }
+
+    private fun setObserver() {
+        sentenceLiveData.observe(this) { sentence ->
+            binding.randomSentence.text = sentence
+        }
     }
 }

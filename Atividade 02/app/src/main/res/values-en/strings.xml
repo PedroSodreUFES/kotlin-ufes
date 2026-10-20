@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Animal Phrases</string>
+    <string name="nameInputError">Your name must have at least 3 characters</string>
+    <string name="welcome_text">Hello</string>
+    <string name="start_text">Click the button to get a phrase!</string>
+    <string name="no_more_phrases_text">No more phrases of</string>
+    <string name="no_more_phrases_of_dog_text">No more phrases of dogs</string>
+    <string name="no_more_phrases_of_cat_text">No more phrases of cats</string>
+    <string name="no_more_phrases_of_fish_text">No more phrases of fishes</string>
+    <string name="generate_text">GET OTHER PHRASE</string>
+</resources>
